@@ -21,7 +21,7 @@ var xHighDPI = 200;     // 2x
 var xxHighDPI = 300;    // 3x
 var xxxHighDPI = 400;    // 3x
 var xxxHighDPI = 400;    // 4x
-var googlePlayDPI = 1066.66666667// 10,6
+var googlePlayDPI = 1066.66666667;// 10,6
 // current AI file
 var doc = app.activeDocument;
 
