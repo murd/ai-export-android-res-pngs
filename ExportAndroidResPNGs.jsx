@@ -9,6 +9,7 @@ var highFolderName = "drawable-hdpi";
 var xHighFolderName = "drawable-xhdpi";
 var xxHighFolderName = "drawable-xxhdpi";
 var xxxHighFolderName = "drawable-xxxhdpi";
+var googlePlayFolderName = "googlePlay";
 
 // layers with this special character as the first char will be exported
 var exportLayerWithTag = "$";
@@ -19,7 +20,8 @@ var highDPI = 150;      // 1.5x
 var xHighDPI = 200;     // 2x
 var xxHighDPI = 300;    // 3x
 var xxxHighDPI = 400;    // 3x
-
+var xxxHighDPI = 400;    // 4x
+var googlePlayDPI = 1066.66666667// 10,6
 // current AI file
 var doc = app.activeDocument;
 
@@ -31,12 +33,14 @@ if (doc.path != "") {
     var xHighFolderPath = doc.path + "/" + xHighFolderName;
     var xxHighFolderPath = doc.path + "/" + xxHighFolderName;
     var xxxHighFolderPath = doc.path + "/" + xxxHighFolderName;
+    var googlePlayFolderPath = doc.path + "/" + googlePlayFolderName;
     
     var mediumFolderDirectory = new Folder(mediumFolderPath);
     var highFolderDirectory = new Folder(highFolderPath);
     var xHighFolderDirectory = new Folder(xHighFolderPath);
     var xxHighFolderDirectory = new Folder(xxHighFolderPath);
     var xxxHighFolderDirectory = new Folder(xxxHighFolderPath);
+    var googlePlayFolderDirectory = new Folder(googlePlayFolderPath);
 
     if (!mediumFolderDirectory.exists) {
         var newMediumFolder = new Folder(mediumFolderPath);
@@ -57,6 +61,10 @@ if (doc.path != "") {
     if (!xxxHighFolderDirectory.exists) {
         var newXXXHighFolder = new Folder(xxxHighFolderPath);
         newXXXHighFolder.create();
+    }
+    if (!googlePlayFolderDirectory.exists) {
+        var newGooglePlayFolder = new Folder(googlePlayFolderPath);
+        newGooglePlayFolder.create();
     }
     // hide all layers
     for (var i = 0; i < doc.layers.length; i++) { 
@@ -91,6 +99,11 @@ if (doc.path != "") {
                 savePath = doc.path;
                 savePath.changePath(xxxHighFolderName + "/" + doc.layers[i].name.substring(1, doc.layers[i].name.length));
                 savePNGtoDisk(savePath, xxxHighDPI)
+
+                savePath = doc.path;
+                savePath.changePath(xxxHighFolderName + "/" + doc.layers[i].name.substring(1, doc.layers[i].name.length));
+                savePNGtoDisk(savePath, googlePlayDPI)
+
                 doc.layers[i].visible = false;
 
                 layersExported++;
