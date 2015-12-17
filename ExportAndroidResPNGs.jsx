@@ -8,6 +8,7 @@ var mediumFolderName = "drawable-mdpi";
 var highFolderName = "drawable-hdpi";
 var xHighFolderName = "drawable-xhdpi";
 var xxHighFolderName = "drawable-xxhdpi";
+var xxxHighFolderName = "drawable-xxxhdpi";
 
 // layers with this special character as the first char will be exported
 var exportLayerWithTag = "$";
@@ -17,6 +18,7 @@ var mediumDPI = 100;    // 1x
 var highDPI = 150;      // 1.5x
 var xHighDPI = 200;     // 2x
 var xxHighDPI = 300;    // 3x
+var xxxHighDPI = 400;    // 3x
 
 // current AI file
 var doc = app.activeDocument;
@@ -28,11 +30,13 @@ if (doc.path != "") {
     var highFolderPath = doc.path + "/" + highFolderName;
     var xHighFolderPath = doc.path + "/" + xHighFolderName;
     var xxHighFolderPath = doc.path + "/" + xxHighFolderName;
+    var xxxHighFolderPath = doc.path + "/" + xxxHighFolderName;
     
     var mediumFolderDirectory = new Folder(mediumFolderPath);
     var highFolderDirectory = new Folder(highFolderPath);
     var xHighFolderDirectory = new Folder(xHighFolderPath);
     var xxHighFolderDirectory = new Folder(xxHighFolderPath);
+    var xxxHighFolderDirectory = new Folder(xxxHighFolderPath);
 
     if (!mediumFolderDirectory.exists) {
         var newMediumFolder = new Folder(mediumFolderPath);
@@ -50,7 +54,10 @@ if (doc.path != "") {
         var newXXHighFolder = new Folder(xxHighFolderPath);
         newXXHighFolder.create();
     }
-
+    if (!xxxHighFolderDirectory.exists) {
+        var newXXXHighFolder = new Folder(xxxHighFolderPath);
+        newXXXHighFolder.create();
+    }
     // hide all layers
     for (var i = 0; i < doc.layers.length; i++) { 
         doc.layers[i].visible = false; 
@@ -81,6 +88,9 @@ if (doc.path != "") {
                 savePath.changePath(xxHighFolderName + "/" + doc.layers[i].name.substring(1, doc.layers[i].name.length));
                 savePNGtoDisk(savePath, xxHighDPI)
 
+                savePath = doc.path;
+                savePath.changePath(xxxHighFolderName + "/" + doc.layers[i].name.substring(1, doc.layers[i].name.length));
+                savePNGtoDisk(savePath, xxxHighDPI)
                 doc.layers[i].visible = false;
 
                 layersExported++;
