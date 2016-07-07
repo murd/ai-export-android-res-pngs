@@ -22,6 +22,9 @@ var xxHighDPI = 300;    // 3x
 var xxxHighDPI = 400;    // 4x
 var differentSizes = 5;
 
+// store visible layers to restore
+var visibleLayersToRestore = new Array();
+
 // current AI file
 var doc = app.activeDocument;
 
@@ -61,8 +64,11 @@ if (doc.path != "") {
         newXXXHighFolder.create();
     }
 
-    // hide all layers
+    // hide all layers and store visible
     for (var i = 0; i < doc.layers.length; i++) { 
+        if (doc.layers[i].visible == true) {
+            visibleLayersToRestore.push(i);
+        }
         doc.layers[i].visible = false; 
     }
     
@@ -109,6 +115,11 @@ if (doc.path != "") {
         alert(layersExported + " layer, " + (layersExported*differentSizes) + " images exported that you didn't have to do manually. Victory!");
     } else {
         alert(layersExported + " layers found to export!. Layers must have the '" + exportLayerWithTag + "' special character and be unlocked. Fail.");
+    }
+    
+    // restore visible layers
+    for (var l = 0; l < visibleLayersToRestore.length; l++) {
+        doc.layers[visibleLayersToRestore[l]].visible = true;
     }
     
 } else {
