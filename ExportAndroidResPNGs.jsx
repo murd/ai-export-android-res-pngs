@@ -1,7 +1,7 @@
 // AUTHOR:      Murdoch Carpenter
 // DATE:        15 July 2014
 // MODIFIED:    07 July 2016
-// VERSION:     1.1
+// VERSION:     1.1.1
 // DETAILS:     Exports unlocked layers with first character "$" to Android resolution PNG's (MDPI, HDPI, XHDPI, XXHDPI, XXXHDPI) ready to paste into your Android Studio project.
 // HOW TO:	http://murdochcarpenter.com/illustrator-script-export-android-multi-res-pngs/
 
@@ -20,6 +20,7 @@ var highDPI = 150;      // 1.5x
 var xHighDPI = 200;     // 2x
 var xxHighDPI = 300;    // 3x
 var xxxHighDPI = 400;    // 4x
+var differentSizes = 5;
 
 // current AI file
 var doc = app.activeDocument;
@@ -102,10 +103,10 @@ if (doc.path != "") {
     }
     
     // alert the user what has been exported
-    if (layersExported > 0) {
-        alert(layersExported + " layer exported that you didn't have to do manually. Victory!");
-    } else if (layersExported > 1) {
-        alert(layersExported + " layers exported that you didn't have to do manually. Victory!");
+    if (layersExported > 1) {
+        alert(layersExported + " layers, " + (layersExported*differentSizes) + " images exported that you didn't have to do manually. Victory!");
+    } else if (layersExported > 0) {
+        alert(layersExported + " layer, " + (layersExported*differentSizes) + " images exported that you didn't have to do manually. Victory!");
     } else {
         alert(layersExported + " layers found to export!. Layers must have the '" + exportLayerWithTag + "' special character and be unlocked. Fail.");
     }
