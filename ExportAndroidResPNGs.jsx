@@ -19,7 +19,6 @@ var mediumDPI = 100;    // 1x
 var highDPI = 150;      // 1.5x
 var xHighDPI = 200;     // 2x
 var xxHighDPI = 300;    // 3x
-var xxxHighDPI = 400;    // 3x
 var xxxHighDPI = 400;    // 4x
 var googlePlayDPI = 1066.66666667;// 10,6
 // current AI file
@@ -101,7 +100,7 @@ if (doc.path != "") {
                 savePNGtoDisk(savePath, xxxHighDPI)
 
                 savePath = doc.path;
-                savePath.changePath(xxxHighFolderName + "/" + doc.layers[i].name.substring(1, doc.layers[i].name.length));
+                savePath.changePath(googlePlayFolderName + "/" + doc.layers[i].name.substring(1, doc.layers[i].name.length));
                 savePNGtoDisk(savePath, googlePlayDPI)
 
                 doc.layers[i].visible = false;
