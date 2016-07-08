@@ -1,0 +1,124 @@
+// AUTHOR:      Murdoch Carpenter
+// DATE:        08 July 2016
+// MODIFIED:    --
+// VERSION:     1
+// DETAILS:     Exports artboards with first character "$" to Android resolution PNG's (MDPI, HDPI, XHDPI, XXHDPI, XXXHDPI) ready to paste into your Android Studio project.
+// HOW TO:	http://murdochcarpenter.com/illustrator-script-export-android-multi-res-pngs/
+
+var mediumFolderName = "drawable-mdpi";
+var highFolderName = "drawable-hdpi";
+var xHighFolderName = "drawable-xhdpi";
+var xxHighFolderName = "drawable-xxhdpi";
+var xxxHighFolderName = "drawable-xxxhdpi";
+
+// artboards with this special character as the first char will be exported
+var exportLayerWithTag = "$";
+
+// android dpi resolutions as percentages from AI file at mdpi
+var mediumDPI = 100;    // 1x
+var highDPI = 150;      // 1.5x
+var xHighDPI = 200;     // 2x
+var xxHighDPI = 300;    // 3x
+var xxxHighDPI = 400;    // 4x
+var differentSizes = 5;
+
+// current AI file
+var doc = app.activeDocument;
+
+// check document has been saved
+if (doc.path != "") {
+    // check each directory exists, if not then create
+    var mediumFolderPath = doc.path + "/" + mediumFolderName;
+    var highFolderPath = doc.path + "/" + highFolderName;
+    var xHighFolderPath = doc.path + "/" + xHighFolderName;
+    var xxHighFolderPath = doc.path + "/" + xxHighFolderName;
+    var xxxHighFolderPath = doc.path + "/" + xxxHighFolderName;
+    
+    var mediumFolderDirectory = new Folder(mediumFolderPath);
+    var highFolderDirectory = new Folder(highFolderPath);
+    var xHighFolderDirectory = new Folder(xHighFolderPath);
+    var xxHighFolderDirectory = new Folder(xxHighFolderPath);
+    var xxxHighFolderDirectory = new Folder(xxxHighFolderPath);
+
+    if (!mediumFolderDirectory.exists) {
+        var newMediumFolder = new Folder(mediumFolderPath);
+        newMediumFolder.create();
+    }
+    if (!highFolderDirectory.exists) {
+        var newHighFolder = new Folder(highFolderPath);
+        newHighFolder.create();
+    }
+    if (!xHighFolderDirectory.exists) {
+        var newXHighFolder = new Folder(xHighFolderPath);
+        newXHighFolder.create();
+    }
+    if (!xxHighFolderDirectory.exists) {
+        var newXXHighFolder = new Folder(xxHighFolderPath);
+        newXXHighFolder.create();
+    }
+    if (!xxxHighFolderDirectory.exists) {
+        var newXXXHighFolder = new Folder(xxxHighFolderPath);
+        newXXXHighFolder.create();
+    }
+    
+    // count for artboards exported
+    var artboardsExported = 0;
+
+    // check for special character on artboards
+    for (var i = 0; i < doc.artboards.length; i++) {
+        // char found
+        if (doc.artboards[i].name.substring(0, 1) == exportLayerWithTag) {
+            
+            // make sure the artboard is selected and active
+            doc.artboards.setActiveArtboardIndex(i);
+            
+            // save PNGs
+            var savePath = doc.path;
+            savePath.changePath(mediumFolderName + "/" + doc.artboards[i].name.substring(1, doc.artboards[i].name.length));
+            savePNGtoDisk(savePath, mediumDPI)
+
+            savePath = doc.path;
+            savePath.changePath(highFolderName + "/" + doc.artboards[i].name.substring(1, doc.artboards[i].name.length));
+            savePNGtoDisk(savePath, highDPI)
+
+            savePath = doc.path;
+            savePath.changePath(xHighFolderName + "/" + doc.artboards[i].name.substring(1, doc.artboards[i].name.length));
+            savePNGtoDisk(savePath, xHighDPI)
+
+            savePath = doc.path;
+            savePath.changePath(xxHighFolderName + "/" + doc.artboards[i].name.substring(1, doc.artboards[i].name.length));
+            savePNGtoDisk(savePath, xxHighDPI)
+
+            savePath = doc.path;
+            savePath.changePath(xxxHighFolderName + "/" + doc.artboards[i].name.substring(1, doc.artboards[i].name.length));
+            savePNGtoDisk(savePath, xxxHighDPI)
+
+            artboardsExported++;
+        }
+    }
+    
+    // alert what has been exported
+    if (artboardsExported > 1) {
+        alert(artboardsExported + " artboards, " + (artboardsExported*differentSizes) + " images exported that you didn't have to do manually. Victory!");
+    } else if (artboardsExported > 0) {
+        alert(artboardsExported + " artboard, " + (artboardsExported*differentSizes) + " images exported that you didn't have to do manually. Victory!");
+    } else {
+        alert(artboardsExported + " artboards found to export!. Artboards must have the '" + exportLayerWithTag + "' special character. Fail.");
+    }
+    
+} else {
+    alert("Please SAVE your document before running this Script!");
+}
+
+// save the PNG to disk
+function savePNGtoDisk(file, scale) {
+    // set PNG export options
+    var exportOptions = new ExportOptionsPNG24();
+    exportOptions.transparency = true;
+    exportOptions.antiAliasing = true;
+    exportOptions.horizontalScale = scale
+    exportOptions.verticalScale = scale;
+    exportOptions.artBoardClipping = true;
+    // save to disk
+    doc.exportFile(file, ExportType.PNG24, exportOptions);
+}
